@@ -41,33 +41,49 @@ cc.LoaderScene = cc.Scene.extend({
      * @returns {boolean}
      */
     init : function(){
-        var self = this;
+        //var self = this;
+        //
+        ////logo
+        //var logoWidth = 160;
+        //var logoHeight = 200;
+        //
+        //// bg
+        //var bgLayer = self._bgLayer = new cc.LayerColor(cc.color(32, 32, 32, 255));
+        //self.addChild(bgLayer, 0);
+        //
+        ////image move to CCSceneFile.js
+        //var fontSize = 24, lblHeight =  -logoHeight / 2 + 100;
+        //if(cc._loaderImage){
+        //    //loading logo
+        //    cc.loader.loadImg(cc._loaderImage, {isCrossOrigin : false }, function(err, img){
+        //        logoWidth = img.width;
+        //        logoHeight = img.height;
+        //        self._initStage(img, cc.visibleRect.center);
+        //    });
+        //    fontSize = 14;
+        //    lblHeight = -logoHeight / 2 - 10;
+        //}
+        ////loading percent
+        //var label = self._label = new cc.LabelTTF("Loading... 0%", "Arial", fontSize);
+        //label.setPosition(cc.pAdd(cc.visibleRect.center, cc.p(0, lblHeight)));
+        //label.setColor(cc.color(180, 180, 180));
+        //bgLayer.addChild(this._label, 10);
+        //return true;
 
-        //logo
-        var logoWidth = 160;
-        var logoHeight = 200;
 
-        // bg
-        var bgLayer = self._bgLayer = new cc.LayerColor(cc.color(32, 32, 32, 255));
-        self.addChild(bgLayer, 0);
-
-        //image move to CCSceneFile.js
-        var fontSize = 24, lblHeight =  -logoHeight / 2 + 100;
-        if(cc._loaderImage){
-            //loading logo
-            cc.loader.loadImg(cc._loaderImage, {isCrossOrigin : false }, function(err, img){
-                logoWidth = img.width;
-                logoHeight = img.height;
-                self._initStage(img, cc.visibleRect.center);
-            });
-            fontSize = 14;
-            lblHeight = -logoHeight / 2 - 10;
-        }
-        //loading percent
-        var label = self._label = new cc.LabelTTF("Loading... 0%", "Arial", fontSize);
-        label.setPosition(cc.pAdd(cc.visibleRect.center, cc.p(0, lblHeight)));
-        label.setColor(cc.color(180, 180, 180));
-        bgLayer.addChild(this._label, 10);
+        var a = this, b = 200, c = a._bgLayer = cc.LayerColor.create(cc.color(32, 32, 32, 255));
+        c.setPosition(cc.visibleRect.bottomLeft);
+        a.addChild(c, 0);
+        var d = 24, e = -b / 2 + 100;
+        cc._loaderImage && (cc.loader.loadImg(cc._loaderImage, {isCrossOrigin: !1}, function (c, d) {
+            b = d.height;
+            a._initStage(d, cc.visibleRect.center)
+        }), d = 14, e = -b / 2 - 10);
+        d = a._label = cc.LabelTTF.create("加载中... 0%", "黑体", d);
+        d.setPosition(cc.pAdd(cc.visibleRect.center,
+            cc.p(0, e)));
+        d.setColor(cc.color(180, 180, 180));
+        c.addChild(this._label, 10);
         return true;
     },
 
