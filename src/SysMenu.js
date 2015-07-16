@@ -53,41 +53,89 @@ var SysMenu = cc.Layer.extend({
         var layer = new cc.LayerColor(cc.color(255,86,115));
         this.addChild(layer,1,cc.TAG_LAYER);
 
-        var logo = new cc.Sprite(res.banner_0);
-        //logo.setTextureRect(cc.rect(0, 0, 100, 100));
 
-        logo.attr({
-            anchorX: 0,
-            anchorY: 0,
-            x: MW.LOGOX,
-            y: MW.LOGOY,
-            scale: 0.5
-        });
+        var newGameNormal = new cc.Sprite(res.start_buttom_0);
+        newGameNormal.anchorX = 0.5;
+        newGameNormal.anchorY = 0.5;
+        newGameNormal.scale = 0.7;
+        //newGameNormal.x = winSize.width/2;
+        var newGamePress = new cc.Sprite(res.start_buttom_1);
+        newGamePress.anchorX = 0.5;
+        newGamePress.anchorY = 0.5;
+        newGamePress.scale = 0.7;
+        //newGamePress.x = winSize.width/2;
 
-        //scale: MW.SCALE
+        var newGameMenu = new cc.MenuItemSprite(newGameNormal,newGamePress,function(){
+            console.log("newGameMenu-------->");
+            this.onNewGame();
+        },this);
 
-        logo.y = 560;
+        var menu = new cc.Menu(newGameMenu);
+        //menu.alignItemsVerticallyWithPadding(15);
+        this.addChild(menu,1,2);
+        //+ newGamePress.getBoundingBox().width/2
+        menu.x = winSize.width / 2 +60;
+        menu.y = winSize.height / 2 - 140;
 
-        //logo.y= winSize.height - logo.getBoundingBox().height-20;
+
+
+        //var logo = new cc.Sprite(res.banner_0);
+        ////logo.setTextureRect(cc.rect(0, 0, 100, 100));
         //
-        console.log("logo height:"+logo.getBoundingBox().height);
-
-        this.addChild(logo,10,1);
-
-        var label = new cc.LabelTTF("width:"+winSize.width+"----------------------------height:"+winSize.height, "Arial", 21);
-        label.setColor(cc.color(MW.FONTCOLOR));
-        this.addChild(label, 1);
-        label.x = winSize.width  / 2;
+        //logo.attr({
+        //    anchorX: 0,
+        //    anchorY: 0,
+        //    x: MW.LOGOX,
+        //    y: MW.LOGOY,
+        //    scale: 0.7
+        //});
+        //
+        //
+        //
+        ////scale: MW.SCALE
+        //
+        ////logo.y = 560;
+        //
+        ////logo.y= winSize.height - logo.getBoundingBox().height-20;
+        ////
+        //console.log("logo height:"+logo.getBoundingBox().height);
+        //
+        //this.addChild(logo,10,"logo");
+        //
+        //
+        //
+        ////var banner01 = new cc.Sprite(res.banner_1);
+        ////banner01.x = winSize.width/2;
+        ////banner01.y = winSize.height/2;
+        ////banner01.scale = 0.8;
+        ////this.addChild(banner01,9,"banner01");
+        //
+        //var label = new cc.LabelTTF("width:"+winSize.width+"----------------------------height:"+winSize.height, "Arial", 21);
+        //label.setColor(cc.color(MW.FONTCOLOR));
+        //this.addChild(label, 11);
+        //label.x = winSize.width  / 2;
         //label.y = 80;
-        label.y = logo.y;
-
-        //var aDraw = new cc.DrawNode();
+        ////label.y = logo.y;
         //
-        //aDraw.drawDot(
-        //    cc.p(MW.LOGOX,MW.LOGOY), // 圆点
-        //    10, // 半径
-        //    cc.color(0,0, 255, 125) // 圆的颜色
-        //);
+        //
+        //
+        //
+        ////var imageView = new ccui.ImageView();
+        ////imageView.setScale9Enabled(true);
+        ////imageView.loadTexture("res/banner_0.png");
+        ////imageView.setContentSize(cc.size(100, 100));
+        ////imageView.x = winSize.width / 2;
+        ////imageView.y = winSize.height / 2 + imageView.height / 4;
+        ////
+        ////this.addChild(imageView,13,"nbanner_0");
+        //
+        ////var aDraw = new cc.DrawNode();
+        ////
+        ////aDraw.drawDot(
+        ////    cc.p(MW.LOGOX,MW.LOGOY), // 圆点
+        ////    10, // 半径
+        ////    cc.color(0,0, 255, 125) // 圆的颜色
+        ////);
 
 
 
