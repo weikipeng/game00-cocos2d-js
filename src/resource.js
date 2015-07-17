@@ -77,6 +77,7 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     start_buttom_1:"res/start_buttom_1.png",
     cart_static:"res/cart_static.png",
     loading_bg:"res/loading_bg.png",
+    loading_logo:"res/loading_logo.png",
     HelloWorld_png : "res/HelloWorld.png",
     CloseNormal_png : "res/CloseNormal.png",
     CloseSelected_png : "res/CloseSelected.png"

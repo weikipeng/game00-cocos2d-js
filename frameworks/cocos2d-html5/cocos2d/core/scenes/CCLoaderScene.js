@@ -36,40 +36,74 @@ cc.LoaderScene = cc.Scene.extend({
     _className:"LoaderScene",
     cb: null,
     target: null,
+    _processLayer: null,
+    _processLayerLength: null,
+    _processLayerHeight: null,
+    _winSize:null,
+    _visibleRect:null,
+
     /**
      * Contructor of cc.LoaderScene
      * @returns {boolean}
      */
     init : function(){
-        var self = this;
 
-        //logo
-        var logoWidth = 160;
-        var logoHeight = 200;
+        var self = this;
+        var loadingBgH = 1334;
+        var loadingBgW = 750;
+        var loadingColor = cc.color(196, 90, 11, 255);
+
+        this._winSize = cc.director.getWinSize();
+        var centerPos = cc.p(this._winSize.width / 2, this._winSize.height / 2);
+
+        this._visibleRect = cc.visibleRect;
+
+        console.log("_visibleRect---->"+this._visibleRect.width+"X"+this._visibleRect.height);
+        console.log("_winSize---->"+this._winSize.width+"X"+this._winSize.height);
+
+        var scaleY = this._visibleRect.height/loadingBgH;
+        var scaleX = this._visibleRect.width/loadingBgW;
 
         // bg
         //var bgLayer = self._bgLayer = new cc.LayerColor(cc.color(32, 32, 32, 255));
         var bgLayer = self._bgLayer = new cc.Sprite(res.loading_bg);
-        bgLayer.attr({anchorX: 0, anchorY: 0, x: 0, y: 0});
+        bgLayer.attr({anchorX: 0, anchorY: 0, x: 0, y: 0,scaleX:scaleX,scaleY:scaleY});
         self.addChild(bgLayer, 0);
 
+
+        var logoY = this._visibleRect.height - 375*scaleY;
+
+        var logo = this._logo = new cc.Sprite(res.loading_logo);
+        logo.attr({anchorX: 0.5, anchorY: 0.5, x: cc.visibleRect.width/2, y: logoY,scale:scaleY});
+        bgLayer.addChild(logo, 1);
+
+        //logo
+        var logoWidth = 160;
+        var logoHeight = 200;
         //image move to CCSceneFile.js
-        var fontSize = 24, lblHeight =  -logoHeight / 2 + 100;
-        if(cc._loaderImage){
-            //loading logo
-            cc.loader.loadImg(cc._loaderImage, {isCrossOrigin : false }, function(err, img){
-                logoWidth = img.width;
-                logoHeight = img.height;
-                self._initStage(img, cc.visibleRect.center);
-            });
-            fontSize = 14;
-            lblHeight = -logoHeight / 2 - 10;
-        }
+        var fontSize = 28, lblHeight =  -logoHeight / 2 + 150;
+
+
         //loading percent
         var label = self._label = new cc.LabelTTF("0%", "Arial", fontSize);
         label.setPosition(cc.pAdd(cc.visibleRect.center, cc.p(0, lblHeight)));
-        label.setColor(cc.color(180, 180, 180));
+        label.setColor(loadingColor);
         bgLayer.addChild(this._label, 10);
+
+        var progressbarH = 8 *scaleY;
+        var progressbarW = 200*scaleX;
+        var processBgLayer = new cc.LayerColor(cc.color(226, 198, 128, 255), progressbarW, progressbarH);
+        processBgLayer.setPosition((this._visibleRect.width-progressbarW)/2,this._visibleRect.height/2);
+        bgLayer.addChild(processBgLayer,1);
+
+        this._processLayerLength = progressbarW;
+        this._processLayerHeight = progressbarH;
+        this._processLayer = new cc.LayerColor(loadingColor, 1, progressbarH);
+        console.log("processBgLayer.x------>"+processBgLayer.x+"  --- processBgLayer.y--->"+processBgLayer.y);
+        this._processLayer.setPosition(processBgLayer.x,processBgLayer.y);
+        bgLayer.addChild(this._processLayer,3);
+
+
         return true;
     },
 
@@ -124,6 +158,9 @@ cc.LoaderScene = cc.Scene.extend({
                 var percent = (loadedCount / count * 100) | 0;
                 percent = Math.min(percent, 100);
                 self._label.setString(percent + "%");
+                self._processLayer.setContentSize(self._processLayerLength * percent / 100,self._processLayerHeight);
+
+                console.log("self._processLayerLength------>"+self._processLayerLength+"------progressbar ------>"+self._processLayerLength * percent / 100);
             }, function () {
                 if (self.cb)
                     self.cb.call(self.target);
