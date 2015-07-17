@@ -60,7 +60,6 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     gameOver_png : 'res/gameOver.png',
     gameOverBack_png : 'res/gameoverBack.png',
     level01_tmx : 'res/level01.tmx',
-    loading_png : 'res/loading.png',
     logo_png : 'res/logo.png',
     logoBack_png : 'res/logoBack.png',
     menu_png : 'res/menu.png',
@@ -71,11 +70,8 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     textureTransparentPack_png : 'res/textureTransparentPack.png',
 
 
-    banner_0:"res/banner_0.png",
-    banner_1:"res/banner_1.png",
     start_buttom_0:"res/start_buttom_0.png",
     start_buttom_1:"res/start_buttom_1.png",
-    cart_static:"res/cart_static.png",
     loading_bg:"res/loading_bg.png",
     loading_logo:"res/loading_logo.png",
     HelloWorld_png : "res/HelloWorld.png",
@@ -84,19 +80,22 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
 };
 
 var g_mainmenu = [
-    res.loading_png,
-    res.flare_jpg,
-    res.menu_png,
-    res.logo_png,
-    res.logoBack_png,
-    res.b01_png,
-    res.b01_plist,
-    res.mainMainMusic_mp3,
-    res.mainMainMusic_ogg,
-    res.mainMainMusic_wav,
-    res.menuTitle_png,
-    res.textureTransparentPack_plist,
-    res.textureTransparentPack_png
+    res.loading_bg,
+    res.loading_logo
+
+    //res.loading_png,
+    //res.flare_jpg,
+    //res.menu_png,
+    //res.logo_png,
+    //res.logoBack_png,
+    //res.b01_png,
+    //res.b01_plist,
+    //res.mainMainMusic_mp3,
+    //res.mainMainMusic_ogg,
+    //res.mainMainMusic_wav,
+    //res.menuTitle_png,
+    //res.textureTransparentPack_plist,
+    //res.textureTransparentPack_png
 ];
 
 var g_maingame = [
