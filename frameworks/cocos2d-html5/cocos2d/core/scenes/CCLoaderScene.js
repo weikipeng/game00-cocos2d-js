@@ -65,7 +65,6 @@ cc.LoaderScene = cc.Scene.extend({
         var scaleX = this._visibleRect.width/loadingBgW;
 
         // bg
-        //var bgLayer = self._bgLayer = new cc.LayerColor(cc.color(32, 32, 32, 255));
         var bgLayer = self._bgLayer = new cc.Sprite(res.loading_bg);
         bgLayer.attr({anchorX: 0, anchorY: 0, x: 0, y: 0,scaleX:scaleX,scaleY:scaleY});
         self.addChild(bgLayer, 0);

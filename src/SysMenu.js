@@ -34,48 +34,95 @@ cc.TAG_LAYER = 1;
 
 var SysMenu = cc.Layer.extend({
     _ship:null,
+    _visibleRect:null,
 
     ctor:function () {
         this._super();
         this.init();
     },
+
     init:function () {
-        winSize = cc.director.getWinSize();
-
-        //var sp = new cc.Sprite(res.loading_png);
-        //sp.anchorX = 0;
-        //sp.anchorY = 0;
-        //sp.scale = MW.SCALE;
-        //this.addChild(sp, 0, 1);
-
-        console.log("width:"+winSize.width+"------height:"+winSize.height);
-
-        var layer = new cc.LayerColor(cc.color(255,86,115));
-        this.addChild(layer,1,cc.TAG_LAYER);
+        this._visibleRect = cc.visibleRect;
+        var loadingBgH = 1334;
+        var loadingBgW = 750;
+        var scaleX = this._visibleRect.width/loadingBgW;
+        var scaleY = this._visibleRect.height/loadingBgH;
+        var allScale = scaleY;
+        if(scaleY > scaleX) {
+            allScale = scaleX;
+        }
+        //var allScale = 0.5;
 
 
-        var newGameNormal = new cc.Sprite(res.start_buttom_0);
-        newGameNormal.anchorX = 0.5;
-        newGameNormal.anchorY = 0.5;
-        newGameNormal.scale = 0.7;
-        //newGameNormal.x = winSize.width/2;
-        var newGamePress = new cc.Sprite(res.start_buttom_1);
-        newGamePress.anchorX = 0.5;
-        newGamePress.anchorY = 0.5;
-        newGamePress.scale = 0.7;
-        //newGamePress.x = winSize.width/2;
+        console.log("width:"+this._visibleRect.width+"------height:"+this._visibleRect.height+"---scaleY:"+scaleY+"---scaleX:"+scaleX);
 
-        var newGameMenu = new cc.MenuItemSprite(newGameNormal,newGamePress,function(){
-            console.log("newGameMenu-------->");
-            this.onNewGame();
+        // bg
+        var bgLayer = new cc.Sprite(res.loading_bg);
+        bgLayer.attr({anchorX: 0, anchorY: 0, x: 0, y: 0,scaleX:scaleX,scaleY:scaleY});
+        this.addChild(bgLayer, 0);
+
+        var gameTitleWidth = 462 * allScale;
+        var gamtTitleHeight = 229 * allScale;
+        var gameTitle = new cc.Sprite(res.game_title);
+        gameTitle.scale = allScale;
+        this.addChild(gameTitle,1);
+
+        //gameTitle.setPosition(gameTitleWidth/2 + 95*scaleX,this._visibleRect.height - 30*scaleY - gamtTitleHeight/2);
+        gameTitle.setPosition(gameTitleWidth/2 + 65 * allScale,this._visibleRect.height-30*scaleY- gamtTitleHeight/2);
+
+        console.log("gameTitle width --->"+ gameTitle.getBoundingBox().width+" ------>gameTitle y position "+gameTitle.y);
+
+        var gameStartDialog = new cc.Sprite(res.game_start_dialog);
+        gameStartDialog.anchorX = 0.5;
+        gameStartDialog.anchorY = 0.5;
+        gameStartDialog.scale = allScale;
+        this.addChild(gameStartDialog, 1);
+        gameStartDialog.setPosition(this._visibleRect.width / 2, this._visibleRect.height / 2);
+        //gameStartDialog.attr({scale:allScale,anchorX:0.5,anchorY:0.5});
+
+
+        //开始按钮
+        var startGameMenu = new cc.MenuItemImage(res.game_start_button_normal,res.game_start_button_press,function(){
+            console.log("startGameMenu ---->press");
         },this);
 
-        var menu = new cc.Menu(newGameMenu);
-        //menu.alignItemsVerticallyWithPadding(15);
-        this.addChild(menu,1,2);
-        //+ newGamePress.getBoundingBox().width/2
-        menu.x = winSize.width / 2 +60;
-        menu.y = winSize.height / 2 - 140;
+        startGameMenu.scale = allScale;
+
+        var menu = new cc.Menu(startGameMenu);
+        this.addChild(menu,2);
+        menu.alignItemsVertically();
+        menu.x = gameStartDialog.x;
+        menu.y = gameStartDialog.y - 220*allScale;
+        //menu.setPosition(this._visibleRect.width / 2, this._visibleRect.height / 2);
+
+
+
+
+        //var layer = new cc.LayerColor(cc.color(255,86,115));
+        //this.addChild(layer,1,cc.TAG_LAYER);
+
+        //var newGameNormal = new cc.Sprite(res.start_buttom_0);
+        //newGameNormal.anchorX = 0.5;
+        //newGameNormal.anchorY = 0.5;
+        //newGameNormal.scale = 0.7;
+        ////newGameNormal.x = winSize.width/2;
+        //var newGamePress = new cc.Sprite(res.start_buttom_1);
+        //newGamePress.anchorX = 0.5;
+        //newGamePress.anchorY = 0.5;
+        //newGamePress.scale = 0.7;
+        ////newGamePress.x = winSize.width/2;
+        //
+        //var newGameMenu = new cc.MenuItemSprite(newGameNormal,newGamePress,function(){
+        //    console.log("newGameMenu-------->");
+        //    this.onNewGame();
+        //},this);
+        //
+        //var menu = new cc.Menu(newGameMenu);
+        ////menu.alignItemsVerticallyWithPadding(15);
+        //this.addChild(menu,1,2);
+        ////+ newGamePress.getBoundingBox().width/2
+        //menu.x = winSize.width / 2 +60;
+        //menu.y = winSize.height / 2 - 140;
 
 
 
@@ -110,11 +157,11 @@ var SysMenu = cc.Layer.extend({
         ////banner01.scale = 0.8;
         ////this.addChild(banner01,9,"banner01");
         //
-        //var label = new cc.LabelTTF("width:"+winSize.width+"----------------------------height:"+winSize.height, "Arial", 21);
-        //label.setColor(cc.color(MW.FONTCOLOR));
-        //this.addChild(label, 11);
-        //label.x = winSize.width  / 2;
-        //label.y = 80;
+        var label = new cc.LabelTTF("width:"+this._visibleRect.width+"----------------------------height:"+this._visibleRect.height, "Arial", 21);
+        label.setColor(cc.color(MW.FONTCOLOR));
+        this.addChild(label, 11);
+        label.x = this._visibleRect.width  / 2;
+        label.y = this._visibleRect.height  / 2;
         ////label.y = logo.y;
         //
         //
@@ -140,86 +187,6 @@ var SysMenu = cc.Layer.extend({
 
 
 
-        //cc.spriteFrameCache.addSpriteFrames(res.textureTransparentPack_plist);
-        //
-        //winSize = cc.director.getWinSize();
-        //var sp = new cc.Sprite(res.loading_png);
-        //sp.anchorX = 0;
-        //sp.anchorY = 0;
-        //sp.scale = MW.SCALE;
-        //this.addChild(sp, 0, 1);
-        //
-        //var logo = new cc.Sprite(res.logo_png);
-        //logo.attr({
-        //    anchorX: 0,
-        //    anchorY: 0,
-        //    x: 0,
-        //    y: MW.LOGOY,
-        //    scale: MW.SCALE
-        //});
-        //this.addChild(logo, 10, 1);
-        //
-        //var logoBack = new cc.Sprite(res.logoBack_png);
-        //logoBack.attr({
-        //    anchorX: 0,
-        //    anchorY: 0,
-        //    x: 60,
-        //    y: MW.LOGOY + logo.height,
-        //    scale: MW.SCALE
-        //});
-        //this.addChild(logoBack, 9);
-        //
-        //var singalHeight = MW.menuHeight;
-        //var singalWidth = MW.menuWidth;
-        //var newGameNormal = new cc.Sprite(res.menu_png, cc.rect(0, 0, singalWidth, singalHeight));
-        //var newGameSelected = new cc.Sprite(res.menu_png, cc.rect(0, singalHeight, singalWidth, singalHeight));
-        //var newGameDisabled = new cc.Sprite(res.menu_png, cc.rect(0, singalHeight * 2, singalWidth, singalHeight));
-        //
-        //var gameSettingsNormal = new cc.Sprite(res.menu_png, cc.rect(singalWidth, 0, singalWidth, singalHeight));
-        //var gameSettingsSelected = new cc.Sprite(res.menu_png, cc.rect(singalWidth, singalHeight, singalWidth, singalHeight));
-        //var gameSettingsDisabled = new cc.Sprite(res.menu_png, cc.rect(singalWidth, singalHeight * 2, singalWidth, singalHeight));
-        //
-        //var aboutNormal = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, 0, singalWidth, singalHeight));
-        //var aboutSelected = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
-        //var aboutDisabled = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, singalHeight * 2, singalWidth, singalHeight));
-        //var flare = new cc.Sprite(res.flare_jpg);
-        //this.addChild(flare, 15, 10);
-        //flare.visible = false;
-        //var newGame = new cc.MenuItemSprite(newGameNormal, newGameSelected, newGameDisabled, function () {
-        //    this.onButtonEffect();
-        //    //this.onNewGame();
-        //    flareEffect(flare, this, this.onNewGame);
-        //}.bind(this));
-        //var gameSettings = new cc.MenuItemSprite(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled, this.onSettings, this);
-        //var about = new cc.MenuItemSprite(aboutNormal, aboutSelected, aboutDisabled, this.onAbout, this);
-        //newGame.scale = MW.SCALE;
-        //gameSettings.scale = MW.SCALE;
-        //about.scale = MW.SCALE;
-        //
-        //var menu = new cc.Menu(newGame, gameSettings, about);
-        //menu.alignItemsVerticallyWithPadding(15);
-        //this.addChild(menu, 1, 2);
-        //menu.x = winSize.width / 2;
-        //menu.y = winSize.height / 2 - 140;
-        //
-        //var label = new cc.LabelTTF("Power by Cocos2d-JS", "Arial", 21);
-        //label.setColor(cc.color(MW.FONTCOLOR));
-        //this.addChild(label, 1);
-        //label.x = winSize.width  / 2;
-        //label.y = 80;
-        //
-        //this.schedule(this.update, 0.1);
-        //
-        //this._ship = new cc.Sprite("#ship03.png");
-        //this.addChild(this._ship, 0, 4);
-        //this._ship.x = Math.random() * winSize.width;
-        //this._ship.y = 0;
-        //this._ship.runAction(cc.moveBy(2, cc.p(Math.random() * winSize.width, this._ship.y + winSize.height + 100)));
-        //
-        //if (MW.SOUND) {
-        //    cc.audioEngine.setMusicVolume(0.7);
-        //    cc.audioEngine.playMusic(cc.sys.os == cc.sys.OS_WP8 || cc.sys.os == cc.sys.OS_WINRT ? res.mainMainMusic_wav : res.mainMainMusic_mp3, true);
-        //}
 
         return true;
     },

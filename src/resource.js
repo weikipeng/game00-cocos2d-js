@@ -53,7 +53,6 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     arial_14_png : 'res/arial-14.png',
     b01_plist : 'res/b01.plist',
     b01_png : 'res/b01.png',
-    cocos2d_html5_png : 'res/cocos2d-html5.png',
     explosion_plist : 'res/explosion.plist',
     explosion_png : 'res/explosion.png',
     flare_jpg : 'res/flare.jpg',
@@ -74,9 +73,11 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     start_buttom_1:"res/start_buttom_1.png",
     loading_bg:"res/loading_bg.png",
     loading_logo:"res/loading_logo.png",
-    HelloWorld_png : "res/HelloWorld.png",
-    CloseNormal_png : "res/CloseNormal.png",
-    CloseSelected_png : "res/CloseSelected.png"
+    game_title:"res/game_title.png",
+    game_start_dialog:"res/game_start_dialog.png",
+    game_start_button_normal:"res/start_button_normal.png",
+    game_start_button_press:"res/start_button_pressed.png"
+
 };
 
 var g_mainmenu = [
