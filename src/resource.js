@@ -69,15 +69,14 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     textureTransparentPack_png : 'res/textureTransparentPack.png',
 
 
-    start_buttom_0:"res/start_buttom_0.png",
-    start_buttom_1:"res/start_buttom_1.png",
     loading_bg:"res/loading_bg.png",
     loading_logo:"res/loading_logo.png",
     game_title:"res/game_title.png",
     game_start_dialog:"res/game_start_dialog.png",
     game_start_button_normal:"res/start_button_normal.png",
-    game_start_button_press:"res/start_button_pressed.png"
-
+    game_start_button_press:"res/start_button_pressed.png",
+    music_on:"res/music_on.png",
+    music_off:"res/music_off.png"
 };
 
 var g_mainmenu = [

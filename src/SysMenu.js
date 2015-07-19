@@ -42,6 +42,7 @@ var SysMenu = cc.Layer.extend({
     },
 
     init:function () {
+        var self = this;
         this._visibleRect = cc.visibleRect;
         var loadingBgH = 1334;
         var loadingBgW = 750;
@@ -84,6 +85,7 @@ var SysMenu = cc.Layer.extend({
         //开始按钮
         var startGameMenu = new cc.MenuItemImage(res.game_start_button_normal,res.game_start_button_press,function(){
             console.log("startGameMenu ---->press");
+            self.onNewGame();
         },this);
 
         startGameMenu.scale = allScale;
@@ -94,6 +96,20 @@ var SysMenu = cc.Layer.extend({
         menu.x = gameStartDialog.x;
         menu.y = gameStartDialog.y - 220*allScale;
         //menu.setPosition(this._visibleRect.width / 2, this._visibleRect.height / 2);
+
+
+        var musicOnMenu = new cc.MenuItemImage(res.music_on,res.music_on,function(){
+            console.log("music menu ---->press");
+        },this);
+
+        var musicMenuH = 74 * scaleY;
+        var musicMenuW = 72 * scaleX;
+        var musicMenu = new cc.Menu(musicOnMenu);
+        this.addChild(musicMenu, 2);
+        musicMenu.alignItemsHorizontally();
+        musicMenu.x = this._visibleRect.width - 40 * scaleX - musicMenuW/2;
+        musicMenu.y = this._visibleRect.height - 40 * scaleY - musicMenuH/2;
+
 
 
 
