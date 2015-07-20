@@ -46,36 +46,7 @@ var Ship = cc.Sprite.extend({
     active:true,
     bornSprite:null,
     ctor:function () {
-        this._super(res.cart_static);
-        this.tag = this.zOrder;
-        this.x = this.appearPosition.x;
-        this.y = this.appearPosition.y;
-        this.initBornSprite();
-        this.born();
-
-        //this._super("#ship01.png");
-        //this.tag = this.zOrder;
-        //this.x = this.appearPosition.x;
-        //this.y = this.appearPosition.y;
-        //
-        //// set frame
-        ////var frame2 = cc.spriteFrameCache.getSpriteFrame("ship03.png");
-        //var frame0 = cc.spriteFrameCache.getSpriteFrame("ship01.png");
-        //var frame1 = cc.spriteFrameCache.getSpriteFrame("ship02.png");
-        //
-        //var animFrames = [];
-        ////animFrames.push(frame2);
-        //animFrames.push(frame0);
-        //animFrames.push(frame1);
-        //
-        //// ship animate
-        //var animation = new cc.Animation(animFrames, 0.1);
-        //var animate = cc.animate(animation);
-        //this.runAction(animate.repeatForever());
-        //this.schedule(this.shoot, 1 / 6);
-        //
-        //this.initBornSprite();
-        //this.born();
+        this._super(res.player);
     },
     update:function (dt) {
         if ((MW.KEYS[cc.KEY.w] || MW.KEYS[cc.KEY.up]) && this.y <= winSize.height) {
@@ -152,41 +123,5 @@ var Ship = cc.Sprite.extend({
         //this.addChild(this.bornSprite, 3000, 99999);
     },
     born:function () {
-        //revive effect
-        console.log("ship born---------->");
-        this.canBeAttack = false;
-        this.bornSprite.scale = 8;
-        this.bornSprite.runAction(cc.scaleTo(0.5, 1, 1));
-        this.bornSprite.visible = true;
-        var blinks = cc.blink(3, 9);
-        var makeBeAttack = cc.callFunc(function (t) {
-            t.canBeAttack = true;
-            t.visible = true;
-            t.bornSprite.visible = false;
-        }.bind(this));
-        this.runAction(cc.sequence(cc.delayTime(0.5), blinks, makeBeAttack));
-
-        this.HP = 5;
-        this._hurtColorLife = 0;
-        this.active = true;
-
-
-
-        ////revive effect
-        //this.canBeAttack = false;
-        //this.bornSprite.scale = 8;
-        //this.bornSprite.runAction(cc.scaleTo(0.5, 1, 1));
-        //this.bornSprite.visible = true;
-        //var blinks = cc.blink(3, 9);
-        //var makeBeAttack = cc.callFunc(function (t) {
-        //    t.canBeAttack = true;
-        //    t.visible = true;
-        //    t.bornSprite.visible = false;
-        //}.bind(this));
-        //this.runAction(cc.sequence(cc.delayTime(0.5), blinks, makeBeAttack));
-        //
-        //this.HP = 5;
-        //this._hurtColorLife = 0;
-        //this.active = true;
     }
 });

@@ -75,13 +75,19 @@ bgMusic_mp3 : 'res/Music/bgMusic.mp3',
     game_start_dialog:"res/game_start_dialog.png",
     game_start_button_normal:"res/start_button_normal.png",
     game_start_button_press:"res/start_button_pressed.png",
+    player:"res/player.png",
     music_on:"res/music_on.png",
-    music_off:"res/music_off.png"
+    music_off:"res/music_off.png",
+    avatars_png:"res/avatars.png",
+    avatars_plist:"res/avatars.plist"
 };
 
 var g_mainmenu = [
     res.loading_bg,
-    res.loading_logo
+    res.loading_logo,
+    res.player,
+    res.avatars_plist,
+    res.avatars_png
 
     //res.loading_png,
     //res.flare_jpg,
@@ -99,41 +105,46 @@ var g_mainmenu = [
 ];
 
 var g_maingame = [
-    //image
-    res.cocos2d_html5_png,
-    res.gameOver_png,
-    res.gameOverBack_png,
-    res.arial_14_png,
-    res.explosion_png,
-    res.textureOpaquePack_png,
+    res.loading_bg,
+    res.loading_logo,
+    res.player,
+    res.avatars_plist,
+    res.avatars_png
 
-    //tmx
-    //res.level01_tmx,
-
-    //plist
-    res.explosion_plist,
-    res.textureOpaquePack_plist,
-
-    //music
-    res.bgMusic_mp3,
-    res.bgMusic_ogg,
-
-    //effect
-    res.buttonEffet_wav,
-    res.explodeEffect_wav,
-    res.fireEffect_wav,
-    res.shipDestroyEffect_wav,
-    res.buttonEffet_wav,
-    res.explodeEffect_wav,
-    res.fireEffect_wav,
-    res.shipDestroyEffect_wav,
-    res.buttonEffet_wav,
-    res.explodeEffect_wav,
-    res.fireEffect_wav,
-    res.shipDestroyEffect_wav,
-
-    // FNT
-    res.arial_14_fnt
+    ////image
+    //res.gameOver_png,
+    //res.gameOverBack_png,
+    //res.arial_14_png,
+    //res.explosion_png,
+    //res.textureOpaquePack_png,
+    //
+    ////tmx
+    ////res.level01_tmx,
+    //
+    ////plist
+    //res.explosion_plist,
+    //res.textureOpaquePack_plist,
+    //
+    ////music
+    //res.bgMusic_mp3,
+    //res.bgMusic_ogg,
+    //
+    ////effect
+    //res.buttonEffet_wav,
+    //res.explodeEffect_wav,
+    //res.fireEffect_wav,
+    //res.shipDestroyEffect_wav,
+    //res.buttonEffet_wav,
+    //res.explodeEffect_wav,
+    //res.fireEffect_wav,
+    //res.shipDestroyEffect_wav,
+    //res.buttonEffet_wav,
+    //res.explodeEffect_wav,
+    //res.fireEffect_wav,
+    //res.shipDestroyEffect_wav,
+    //
+    //// FNT
+    //res.arial_14_fnt
 ];
 var g_resources = [];
 for (var i in res) {

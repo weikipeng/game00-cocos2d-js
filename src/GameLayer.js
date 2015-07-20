@@ -56,20 +56,33 @@ var GameLayer = cc.Layer.extend({
     _texOpaqueBatch:null,
     _texTransparentBatch:null,
 
+    _scaleX:null,
+    _scaleY:null,
+    _allScale:null,
+    _visibleRect:null,
+
     ctor:function(){
         this._super();
         this.init();
     },
     init:function () {
-        winSize = cc.director.getWinSize();
 
-        var layer = new cc.LayerColor(cc.color(255,86,115));
-        this.addChild(layer,1,cc.TAG_LAYER);
+        var self = this;
 
+        this._visibleRect = cc.visibleRect;
 
-        this._ship = new Ship();
-        this.addChild(this._ship,this._ship.zOrder,MW.UNIT_TAG.PLAYER);
+        this._state = STATE_PLAYING;
 
+        this.initBg();
+
+        this.initPlayer();
+
+        this.addEvent();
+
+        return true;
+    },
+
+    addEvent:function(){
         if (cc.sys.capabilities.hasOwnProperty('keyboard'))
             cc.eventManager.addListener({
                 event: cc.EventListener.KEYBOARD,
@@ -103,137 +116,67 @@ var GameLayer = cc.Layer.extend({
             }, this);
         }
 
+        // schedule
+        this.scheduleUpdate();
+    },
 
-        //cc.spriteFrameCache.addSpriteFrames(res.textureOpaquePack_plist);
-        //cc.spriteFrameCache.addSpriteFrames(res.b01_plist);
-        //
-        //// reset global values
-        //MW.CONTAINER.ENEMIES = [];
-        //MW.CONTAINER.ENEMY_BULLETS = [];
-        //MW.CONTAINER.PLAYER_BULLETS = [];
-        //MW.CONTAINER.EXPLOSIONS = [];
-        //MW.CONTAINER.SPARKS = [];
-        //MW.CONTAINER.HITS = [];
-        //MW.CONTAINER.BACKSKYS = [];
-        //MW.CONTAINER.BACKTILEMAPS = [];
-        //MW.ACTIVE_ENEMIES = 0;
-        //
-        //MW.SCORE = 0;
-        //MW.LIFE = 4;
-        //this._state = STATE_PLAYING;
-        //
-        //// OpaqueBatch
-        //var texOpaque = cc.textureCache.addImage(res.textureOpaquePack_png);
-        //this._texOpaqueBatch = new cc.SpriteBatchNode(texOpaque);
-        //this._sparkBatch = new cc.SpriteBatchNode(texOpaque);
-        //if(cc.sys.isNative) this._sparkBatch.setBlendFunc(cc.SRC_ALPHA, cc.ONE);
-        //this.addChild(this._texOpaqueBatch);
-        //this.addChild(this._sparkBatch);
-        //
-        //// TransparentBatch
-        //var texTransparent = cc.textureCache.addImage(res.textureTransparentPack_png);
-        //this._texTransparentBatch = new cc.SpriteBatchNode(texTransparent);
-        //this.addChild(this._texTransparentBatch);
-        //
-        //winSize = cc.director.getWinSize();
-        //this._levelManager = new LevelManager(this);
-        //
-        //this.screenRect = cc.rect(0, 0, winSize.width, winSize.height + 10);
-        //
-        //// score
-        //this.lbScore = new cc.LabelBMFont("Score: 0", res.arial_14_fnt);
-        //this.lbScore.attr({
-        //    anchorX: 1,
-        //    anchorY: 0,
-        //    x: winSize.width - 5,
-        //    y: winSize.height - 30,
-        //    scale: MW.SCALE
-        //});
-        //this.lbScore.textAlign = cc.TEXT_ALIGNMENT_RIGHT;
-        //this.addChild(this.lbScore, 1000);
-        //
-        //// ship life
-        //var life = new cc.Sprite("#ship03.png");
-        //life.attr({
-        //    scale: 0.6,
-        //    x: 30,
-        //    y: MW.HEIGHT - 30
-        //});
-        //this._texTransparentBatch.addChild(life, 1, 5);
-        //
-        //// ship Life count
-        //this._lbLife = new cc.LabelTTF("0", "Arial", 20);
-        //this._lbLife.x = 60;
-        //this._lbLife.y = MW.HEIGHT - 25;
-        //this._lbLife.color = cc.color(255, 0, 0);
-        //this.addChild(this._lbLife, 1000);
-        //
+    initPlayer:function(){
+        var shipH = 260 * this._scaleY;
+        this._ship = new Ship();
+
         //// ship
         //this._ship = new Ship();
         //this._texTransparentBatch.addChild(this._ship, this._ship.zOrder, MW.UNIT_TAG.PLAYER);
-        //
-        //// explosion batch node
-        //cc.spriteFrameCache.addSpriteFrames(res.explosion_plist);
-        //var explosionTexture = cc.textureCache.addImage(res.explosion_png);
-        //this._explosions = new cc.SpriteBatchNode(explosionTexture);
-        //this._explosions.setBlendFunc(cc.SRC_ALPHA, cc.ONE);
-        //this.addChild(this._explosions);
-        //Explosion.sharedExplosion();
-        //
-        //if (cc.sys.capabilities.hasOwnProperty('keyboard'))
-        //    cc.eventManager.addListener({
-        //        event: cc.EventListener.KEYBOARD,
-        //        onKeyPressed:function (key, event) {
-        //            MW.KEYS[key] = true;
-        //        },
-        //        onKeyReleased:function (key, event) {
-        //            MW.KEYS[key] = false;
-        //        }
-        //    }, this);
-        //
-        //if ('mouse' in cc.sys.capabilities)
-        //    cc.eventManager.addListener({
-        //        event: cc.EventListener.MOUSE,
-        //        onMouseMove: function(event){
-        //            if(event.getButton() == cc.EventMouse.BUTTON_LEFT)
-        //                event.getCurrentTarget().processEvent(event);
-        //        }
-        //    }, this);
-        //
-        //if (cc.sys.capabilities.hasOwnProperty('touches')){
-        //    cc.eventManager.addListener({
-        //        prevTouchId: -1,
-        //        event: cc.EventListener.TOUCH_ALL_AT_ONCE,
-        //        onTouchesMoved:function (touches, event) {
-        //            var touch = touches[0];
-        //            if (this.prevTouchId != touch.getID())
-        //                this.prevTouchId = touch.getID();
-        //            else event.getCurrentTarget().processEvent(touches[0]);
-        //        }
-        //    }, this);
-        //}
-        //
-        //// schedule
-        //this.scheduleUpdate();
-        //this.schedule(this.scoreCounter, 1);
-        //
-        //if (MW.SOUND)
-        //    cc.audioEngine.playMusic(cc.sys.os == cc.sys.OS_WP8 || cc.sys.os == cc.sys.OS_WINRT ? res.bgMusic_wav : res.bgMusic_mp3, true);
-        //
-        //g_sharedGameLayer = this;
-        //
-        ////pre set
-        //Bullet.preSet();
-        //Enemy.preSet();
-        //HitEffect.preSet();
-        //SparkEffect.preSet();
-        //Explosion.preSet();
-        //BackSky.preSet();
-        //BackTileMap.preSet();
-        //
-        //this.initBackground();
 
-        return true;
+        this.addChild(this._ship, 5);
+        this._ship.attr({
+            x:this._visibleRect.width/2,
+            y:shipH/2
+        });
+    },
+
+    initBg:function(){
+        var loadingBgH = 1334;
+        var loadingBgW = 750;
+        var scaleX = this._visibleRect.width/loadingBgW;
+        var scaleY = this._visibleRect.height/loadingBgH;
+        var allScale = scaleY;
+        if(scaleY > scaleX) {
+            allScale = scaleX;
+        }
+
+        this._scaleX = scaleX;
+        this._scaleY = scaleY;
+        this._allScale = allScale;
+
+        console.log("width:"+this._visibleRect.width+"------height:"+this._visibleRect.height+"---scaleY:"+scaleY+"---scaleX:"+scaleX);
+        //bg
+        var bgLayer = new cc.Sprite(res.loading_bg);
+        bgLayer.attr({anchorX: 0, anchorY: 0, x: 0, y: 0,scaleX:scaleX,scaleY:scaleY});
+        this.addChild(bgLayer, 0);
+
+        var gameTitleWidth = 462 * allScale;
+        var gamtTitleHeight = 229 * allScale;
+        var gameTitle = new cc.Sprite(res.game_title);
+        gameTitle.scale = allScale;
+        this.addChild(gameTitle,1);
+
+        gameTitle.setPosition(gameTitleWidth/2 + 65 * allScale,this._visibleRect.height-30*scaleY- gamtTitleHeight/2);
+
+        console.log("gameTitle width --->"+ gameTitle.getBoundingBox().width+" ------>gameTitle y position "+gameTitle.y);
+
+        //音乐按钮
+        var musicOnMenu = new cc.MenuItemImage(res.music_on,res.music_on,function(){
+            console.log("music menu ---->press");
+        },this);
+
+        var musicMenuH = 74 * scaleY;
+        var musicMenuW = 72 * scaleX;
+        var musicMenu = new cc.Menu(musicOnMenu);
+        this.addChild(musicMenu, 2);
+        musicMenu.alignItemsHorizontally();
+        musicMenu.x = this._visibleRect.width - 40 * scaleX - musicMenuW/2;
+        musicMenu.y = this._visibleRect.height - 40 * scaleY - musicMenuH/2;
     },
 
     scoreCounter:function () {
@@ -248,21 +191,32 @@ var GameLayer = cc.Layer.extend({
             var delta = event.getDelta();
             var curPos = cc.p(this._ship.x, this._ship.y);
             curPos = cc.pAdd(curPos, delta);
-            curPos = cc.pClamp(curPos, cc.p(0, 0), cc.p(winSize.width, winSize.height));
+            curPos = cc.pClamp(curPos, cc.p(0, 0), cc.p(this._visibleRect.width, this._visibleRect.height));
             this._ship.x = curPos.x;
-	        this._ship.y = curPos.y;
-	        curPos = null;
+            //this._ship.y = curPos.y;
+           curPos = null;
         }
+
+
+        //if (this._state == STATE_PLAYING) {
+        //    var delta = event.getDelta();
+        //    var curPos = cc.p(this._ship.x, this._ship.y);
+        //    curPos = cc.pAdd(curPos, delta);
+        //    curPos = cc.pClamp(curPos, cc.p(0, 0), cc.p(winSize.width, winSize.height));
+        //    this._ship.x = curPos.x;
+	     //   this._ship.y = curPos.y;
+	     //   curPos = null;
+        //}
     },
 
     update:function (dt) {
-        if (this._state == STATE_PLAYING) {
-            this.checkIsCollide();
-            this.removeInactiveUnit(dt);
-            this.checkIsReborn();
-            this.updateUI();
-            this._movingBackground(dt);
-        }
+        //if (this._state == STATE_PLAYING) {
+        //    this.checkIsCollide();
+        //    this.removeInactiveUnit(dt);
+        //    this.checkIsReborn();
+        //    this.updateUI();
+        //    this._movingBackground(dt);
+        //}
     },
     checkIsCollide:function () {
         var selChild, bulletChild;

@@ -173,11 +173,11 @@ var SysMenu = cc.Layer.extend({
         ////banner01.scale = 0.8;
         ////this.addChild(banner01,9,"banner01");
         //
-        var label = new cc.LabelTTF("width:"+this._visibleRect.width+"----------------------------height:"+this._visibleRect.height, "Arial", 21);
-        label.setColor(cc.color(MW.FONTCOLOR));
-        this.addChild(label, 11);
-        label.x = this._visibleRect.width  / 2;
-        label.y = this._visibleRect.height  / 2;
+        //var label = new cc.LabelTTF("width:"+this._visibleRect.width+"----------------------------height:"+this._visibleRect.height, "Arial", 21);
+        //label.setColor(cc.color(MW.FONTCOLOR));
+        //this.addChild(label, 11);
+        //label.x = this._visibleRect.width  / 2;
+        //label.y = this._visibleRect.height  / 2;
         ////label.y = logo.y;
         //
         //
@@ -208,12 +208,13 @@ var SysMenu = cc.Layer.extend({
     },
     onNewGame:function (pSender) {
         //load resources
-        cc.LoaderScene.preload(g_maingame, function () {
-            cc.audioEngine.stopMusic();
-            cc.audioEngine.stopAllEffects();
+        //cc.LoaderScene.preload(g_maingame, function () {
+        cc.LoaderScene.preload(g_mainmenu, function () {
+            //cc.audioEngine.stopMusic();
+            //cc.audioEngine.stopAllEffects();
             var scene = new cc.Scene();
             scene.addChild(new GameLayer());
-            scene.addChild(new GameControlMenu());
+            //scene.addChild(new GameControlMenu());
 	        cc.director.runScene(new cc.TransitionFade(1.2, scene));
         }, this);
     },
